@@ -1,4 +1,4 @@
-# SellerPintar Project Management App
+# Task Project Management App
 
 A collaborative project and task management app built with Next.js, Prisma, NextAuth, and Tailwind CSS.
 
@@ -15,7 +15,7 @@ A collaborative project and task management app built with Next.js, Prisma, Next
 
 ### 1. Clone Repository
 ```
-git clone <repo-url>
+git clone https://github.com/anggacipta/sp_fs_anggacipta.git
 cd sp_fs_anggacipta
 ```
 
