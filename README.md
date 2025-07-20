@@ -25,7 +25,11 @@ npm install
 ```
 
 ### 3. Setup Environment
-Buat file `.env` dan isi dengan:
+Salin file `.env.example` menjadi `.env` lalu edit isinya sesuai konfigurasi lokal Anda:
+```
+cp .env.example .env
+```
+Lalu edit variabel berikut di `.env`:
 ```
 DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE
 NEXTAUTH_SECRET=your_secret
