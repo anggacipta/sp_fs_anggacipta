@@ -43,13 +43,13 @@ NEXTAUTH_URL=http://localhost:3000
 > 
 
 ### 4. Setup Database
+- Generate Prisma client:
+```
+npx prisma generate
+```
 - Jalankan migrasi Prisma:
 ```
 npx prisma migrate dev --name init
-```
-- (Opsional) Generate client:
-```
-npx prisma generate
 ```
 
 ### 5. Jalankan Development Server
