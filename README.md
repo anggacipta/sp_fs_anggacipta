@@ -1,3 +1,70 @@
+# SellerPintar Project Management App
+
+A collaborative project and task management app built with Next.js, Prisma, NextAuth, and Tailwind CSS.
+
+## Fitur Utama
+- Autentikasi user (NextAuth)
+- Dashboard project & task
+- CRUD project & task
+- Kanban board drag-and-drop
+- Analytics chart (task status)
+- Export data project ke JSON
+- Project settings (invite member, delete, edit nama)
+
+## Instalasi & Setup
+
+### 1. Clone Repository
+```
+git clone <repo-url>
+cd sp_fs_anggacipta
+```
+
+### 2. Install Dependencies
+```
+npm install
+```
+
+### 3. Setup Environment
+Buat file `.env` dan isi dengan:
+```
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE
+NEXTAUTH_SECRET=your_secret
+NEXTAUTH_URL=http://localhost:3000
+```
+
+### 4. Setup Database
+- Jalankan migrasi Prisma:
+```
+npx prisma migrate dev --name init
+```
+- (Opsional) Generate client:
+```
+npx prisma generate
+```
+
+### 5. Jalankan Development Server
+```
+npm run dev
+```
+Akses di [http://localhost:3000](http://localhost:3000)
+
+## Fitur Lain
+- Edit nama project di halaman settings
+- Export semua project ke JSON
+- Chart analytics task
+- Responsive UI (Tailwind)
+
+## Struktur Folder Penting
+- `src/app/` : Halaman Next.js (dashboard, projects, settings, API)
+- `prisma/` : Schema & migrasi database
+- `src/lib/prisma.ts` : Inisialisasi Prisma Client
+
+## Kontribusi
+Pull request & issue sangat diterima!
+
+---
+
+**By anggacipta Team**
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
