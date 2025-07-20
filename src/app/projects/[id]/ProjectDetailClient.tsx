@@ -6,6 +6,10 @@ import AddTaskModal from "./AddTaskModal";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+type Task = any;
+type TaskColumnKey = 'todo' | 'inProgress' | 'done' | string;
+type LocalTasks = { [key in TaskColumnKey]: Task[] };
+
 export default function ProjectDetailClient({
   projectId,
   groupedTasks,
@@ -14,7 +18,7 @@ export default function ProjectDetailClient({
   ownerEmail,
 }: {
   projectId: string;
-  groupedTasks: Record<string, any[]>;
+  groupedTasks: LocalTasks;
   members: { id: string; email: string }[];
   projectName: string;
   ownerEmail: string;
@@ -24,8 +28,9 @@ export default function ProjectDetailClient({
   const [editTask, setEditTask] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [deleteLoadingId, setDeleteLoadingId] = useState<string | null>(null);
-  // Local state for kanban drag
-  const [localTasks, setLocalTasks] = useState(groupedTasks);
+  // Local state for kanban drag, fallback default agar tidak undefined/null
+  const defaultTasks: LocalTasks = { todo: [], inProgress: [], done: [] };
+  const [localTasks, setLocalTasks] = useState<LocalTasks>({ ...defaultTasks, ...groupedTasks });
   // Handler untuk hapus task
   const handleDeleteTask = async (taskId: string) => {
     if (!confirm("Yakin ingin menghapus task ini?")) return;
@@ -96,8 +101,13 @@ export default function ProjectDetailClient({
     if (source.droppableId === destination.droppableId && source.index === destination.index) return;
 
     // Find the task
-    const sourceCol = source.droppableId;
-    const destCol = destination.droppableId;
+    const validKeys: TaskColumnKey[] = ['todo', 'inProgress', 'done'];
+    const sourceCol = source.droppableId as TaskColumnKey;
+    const destCol = destination.droppableId as TaskColumnKey;
+    if (!validKeys.includes(sourceCol) || !validKeys.includes(destCol)) {
+      console.warn("Invalid column key", { sourceCol, destCol, localTasks });
+      return;
+    }
     const task = localTasks[sourceCol].find((t: any) => t.id === draggableId);
     if (!task) return;
 
@@ -109,12 +119,12 @@ export default function ProjectDetailClient({
     const updatedTask = { ...task, status: destCol };
     newDest.splice(destination.index, 0, updatedTask);
 
-    const newTasks = {
-      ...localTasks,
-      [sourceCol]: newSource,
-      [destCol]: newDest,
-    };
-    setLocalTasks(newTasks);
+    // Update hanya tiga key utama
+    setLocalTasks({
+      todo: sourceCol === 'todo' ? newSource : destCol === 'todo' ? newDest : localTasks.todo,
+      inProgress: sourceCol === 'inProgress' ? newSource : destCol === 'inProgress' ? newDest : localTasks.inProgress,
+      done: sourceCol === 'done' ? newSource : destCol === 'done' ? newDest : localTasks.done,
+    });
 
     // Update backend
     try {
@@ -135,9 +145,9 @@ export default function ProjectDetailClient({
     }
   };
 
-  // Sync localTasks with groupedTasks if groupedTasks berubah (misal setelah add/edit/delete)
+  // Sync localTasks with groupedTasks jika groupedTasks berubah (misal setelah add/edit/delete)
   React.useEffect(() => {
-    setLocalTasks(groupedTasks);
+    setLocalTasks({ ...defaultTasks, ...groupedTasks });
   }, [groupedTasks]);
 
   return (

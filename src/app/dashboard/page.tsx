@@ -19,11 +19,11 @@ export default async function DashboardPage() {
   })
 
   const ownedProjects = user?.projects || []
-  const memberProjects = user?.memberships.map(m => m.project) || []
+  const memberProjects = user?.memberships.map((m: any) => m.project) || []
   const allProjectsMap = new Map()
 
-  ownedProjects.forEach(project => allProjectsMap.set(project.id, project))
-  memberProjects.forEach(project => allProjectsMap.set(project.id, project))
+  ownedProjects.forEach((project: any) => allProjectsMap.set(project.id, project))
+  memberProjects.forEach((project: any) => allProjectsMap.set(project.id, project))
 
   const allProjects = Array.from(allProjectsMap.values())
 
