@@ -11,14 +11,12 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           <Link href="/dashboard" className="block hover:underline text-white">
             🏠 Dashboard
           </Link>
-            <form action="/api/logout" method="POST">
-            <button
-              type="submit"
+            <a
+              href="/api/auth/signout"
               className="block w-full text-left hover:underline text-white bg-transparent border-none p-0"
             >
               🚪 Logout
-            </button>
-            </form>
+            </a>
         </nav>
       </aside>
 
