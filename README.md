@@ -36,6 +36,12 @@ NEXTAUTH_SECRET=your_secret
 NEXTAUTH_URL=http://localhost:3000
 ```
 
+> ⚠️ **Penting:**
+> Terkadang seperti pada kasus saya dengan schema database = `public`, prisma migrate tidak berhasil dijalankan dan selalu minta reset. Cara menghindari nya adalah dengan mengganti nama schema database menjadi selain = `public`. Pastikan tambahkan parameter `schema=nama_schema` pada `DATABASE_URL`, misal:
+> 
+> `DATABASE_URL="postgresql://postgres:@localhost:5432/postgres?schema=test"`
+> 
+
 ### 4. Setup Database
 - Jalankan migrasi Prisma:
 ```
